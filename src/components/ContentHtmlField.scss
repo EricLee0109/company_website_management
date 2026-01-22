@@ -1,0 +1,17 @@
+.content-html-field-wrapper {
+    max-height: calc(100vh - 200px);
+    overflow: auto;
+    border: none;
+}
+
+.content-html-textarea {
+    padding: 0px 14px;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    max-height: 400px;
+    overflow-y: auto;
+    resize: vertical;
+    width: 100%;
+    color: gray;
+    background-color: #141414;
+}

@@ -7,6 +7,7 @@ import sharp from 'sharp'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
+import { Posts } from './collections/Posts'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -18,8 +19,9 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media],
+  collections: [Users, Media, Posts],
   editor: lexicalEditor(),
+  serverURL: process.env.SERVER_URL || '',
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
@@ -28,5 +30,13 @@ export default buildConfig({
     url: process.env.DATABASE_URL || '',
   }),
   sharp,
+  cors: [
+    'http://localhost:3000',
+    // 'https://your-frontend.com',
+  ],
+  csrf: [
+    'http://localhost:3000',
+    // 'https://your-frontend.com',
+  ],
   plugins: [],
 })
