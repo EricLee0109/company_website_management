@@ -37,11 +37,11 @@ export default buildConfig({
   }),
   sharp,
   cors: [
-    'http://localhost:3000',
+    process.env.SERVER_URL || 'http://localhost:4000',
     // 'https://your-frontend.com',
   ],
   csrf: [
-    'http://localhost:3000',
+    process.env.SERVER_URL || 'http://localhost:4000',
     // 'https://your-frontend.com',
   ],
   plugins: [],
