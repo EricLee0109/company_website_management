@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  mongo:
+    image: mongo:7
+    container_name: mongo-dev
+    volumes:
+      - mongo_data:/data/db
+    command: ["mongod"]
+    restart: unless-stopped
+
+  payload:
+    image: node:18-alpine
+    container_name: payload-dev
+    working_dir: /home/node/app
+    volumes:
+      - .:/home/node/app
+      - node_modules:/home/node/app/node_modules
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env.dev
+    command: sh -c "corepack enable && corepack prepare pnpm@latest --activate && pnpm install && pnpm dev"
+    depends_on:
+      - mongo
+
+volumes:
+  mongo_data:
+  node_modules:

@@ -2,7 +2,6 @@ import { withPayload } from '@payloadcms/next/withPayload'
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Your Next.js config here
   webpack: (webpackConfig) => {
     webpackConfig.resolve.extensionAlias = {
       '.cjs': ['.cts', '.cjs'],
@@ -12,6 +11,11 @@ const nextConfig = {
 
     return webpackConfig
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  output: 'standalone',
+
 }
 
 export default withPayload(nextConfig, { devBundleServerPackages: false })

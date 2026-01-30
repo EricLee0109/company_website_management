@@ -5,6 +5,7 @@ import type { CollectionConfig, RichTextField } from "payload";
 const contentField: RichTextField = {
   name: 'content',
   type: 'richText',
+  localized: true,
   // editor: lexicalEditor({
   //   features: ({ defaultFeatures }) => [
   //     ...defaultFeatures,
@@ -19,11 +20,18 @@ export const Posts: CollectionConfig = {
     useAsTitle: 'title',
   },
   access: {
-    read: () => true,
+    read: ({ req }) => {
+      // if post with status published then return true else return false
+      return {
+        status: {
+          equals: 'published',
+        }
+      }
+    },
   },
   fields: [
-    { name: 'title', type: 'text', required: true, },
-    { name: 'slug', type: 'text', unique: true, index: true, required: true },
+    { name: 'title', type: 'text', required: true, localized: true },
+    { name: 'slug', type: 'text', unique: true, index: true, required: true, localized: true },
     contentField,
     {
       name: 'contentHtml',

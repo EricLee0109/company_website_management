@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  mongo:
+    image: mongo:7
+    container_name: mongo-prod
+    restart: unless-stopped
+    command: ["mongod", "--auth"]
+    volumes:
+      - mongo_data:/data/db
+    # ports:
+    #   - "127.0.0.1:27017:27017"
+
+  payload:
+    build: .
+    container_name: payload-prod
+    restart: unless-stopped
+    volumes:
+      - media_data:/app/media
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env.prod
+    depends_on:
+      - mongo
+
+volumes:
+  mongo_data:
+  media_data:
