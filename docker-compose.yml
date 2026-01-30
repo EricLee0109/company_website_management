@@ -9,7 +9,7 @@ services:
       - .:/home/node/app
       - node_modules:/home/node/app/node_modules
     working_dir: /home/node/app/
-    command: sh -c "corepack enable && corepack prepare pnpm@latest --activate && pnpm install && pnpm dev"
+    # command: sh -c "corepack enable && corepack prepare pnpm@latest --activate && pnpm install && pnpm dev"
     depends_on:
       - mongo
       # - postgres
@@ -19,15 +19,22 @@ services:
   # Ensure your DATABASE_URL uses 'mongo' as the hostname ie. mongodb://mongo/my-db-name
   mongo:
     image: mongo:latest
+    container_name: payload-mongo
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_DB_NAME}
     ports:
-      - '27017:27017'
-    command:
-      - --storageEngine=wiredTiger
+      - '127.0.0.1:27017:27017'
+    command: 
+      - mongod
+      - --auth
     volumes:
-      - data:/data/db
-    logging:
-      driver: none
-
+      - mongo_data:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    # logging:
+    #   driver: none
   # Uncomment the following to use postgres
   # postgres:
   #   restart: always
@@ -38,6 +45,6 @@ services:
   #     - "5432:5432"
 
 volumes:
-  data:
-  # pgdata:
+  data: # pgdata:
+
   node_modules:

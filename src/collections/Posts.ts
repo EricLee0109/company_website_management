@@ -20,7 +20,14 @@ export const Posts: CollectionConfig = {
     useAsTitle: 'title',
   },
   access: {
-    read: () => true,
+    read: ({ req }) => {
+      // if post with status published then return true else return false
+      return {
+        status: {
+          equals: 'published',
+        }
+      }
+    },
   },
   fields: [
     { name: 'title', type: 'text', required: true, localized: true },
