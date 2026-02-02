@@ -3,6 +3,7 @@ import React from 'react'
 // import { fileURLToPath } from 'url'
 import './styles.css'
 import { getCurrentUser } from '@/lib/payload-auth'
+import Link from 'next/link'
 
 export default async function HomePage() {
   const user = await getCurrentUser()
@@ -22,6 +23,11 @@ export default async function HomePage() {
         ) : (
           <h1>Welcome to Payload CMS</h1>
         )}
+        <Link href={'/admin'}>
+          <button>
+            Admin
+          </button>
+        </Link>
       </div>
     </div>
   )
